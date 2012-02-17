@@ -3,6 +3,7 @@ require "login_cookie/version"
 require 'base64'
 require 'digest'
 require 'json'
+require 'time'
 
 module LoginCookie
   autoload :Config, 'login_cookie/config'

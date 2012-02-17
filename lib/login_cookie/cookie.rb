@@ -7,8 +7,6 @@ module LoginCookie
       self.user_id = user.id
       self.role = user.role
       self.name = user.name
-      self.expires_at = expires_at
-      self.session_token = generate_session_token
     end
 
     def payload
@@ -22,6 +20,10 @@ module LoginCookie
 
     def expires_at
       @expires_at ||= Time.now.utc + LoginCookie.config.ttl
+    end
+
+    def session_token
+      @session_token ||= Digest::SHA2.hexdigest [self.user_id, self.expires_at.to_i].join
     end
 
     def self.parse(payload)
@@ -59,11 +61,8 @@ module LoginCookie
     end
 
     def self.expired?(date)
-      Time.parse(date) > Time.now.utc
+      Time.parse(date) < Time.now.utc
     end
 
-    def generate_session_token
-      Digest::SHA2.hexdigest [self.user_id, self.expires_at.to_i].join
-    end
   end
 end
