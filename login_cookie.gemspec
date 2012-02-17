@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = LoginCookie::VERSION
   s.authors     = ["Dennis Rogenius"]
   s.email       = ["dennis@magplus.com"]
-  s.homepage    = "www.magplus.com"
+  s.homepage    = "http://www.magplus.com"
   s.summary     = "Mag+ Login Cookie"
   s.description = "Gem for managing login cookies for single signon"
 
@@ -25,5 +25,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec", "~>2.0"
   s.add_development_dependency "timecop"
-  s.add_development_dependency "ruby-debug19"
 end
