@@ -31,7 +31,7 @@ module LoginCookie
       new(user)
     end
 
-    private
+    private # dont really makes the methods private, but just to separate the helpers from the interface
 
     def self.separator
       '.'
@@ -57,7 +57,8 @@ module LoginCookie
     end
 
     def self.valid_digest?(base64json, hexdigest)
-       hexdigest(base64json) == hexdigest
+      valid = hexdigest(base64json) == hexdigest
+      valid or raise LoginCookie::InvalidDigest.new("Cookie digest did not match, have you set the correct secret?")
     end
 
     def self.expired?(date)

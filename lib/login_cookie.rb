@@ -8,6 +8,7 @@ require 'time'
 module LoginCookie
   autoload :Config, 'login_cookie/config'
   autoload :Cookie, 'login_cookie/cookie'
+  autoload :InvalidDigest, 'login_cookie/invalid_digest'
 
   class << self
     def config

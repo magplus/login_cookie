@@ -47,5 +47,12 @@ describe LoginCookie::Cookie do
         LoginCookie::Cookie.parse(cookie.payload).should be_nil
       end
     end
+
+    context "given a cookie with an invalid digest" do
+      before { LoginCookie::Cookie.should_receive(:valid_digest?).and_raise LoginCookie::InvalidDigest }
+      it "should raise an error" do
+        lambda { LoginCookie::Cookie.parse(cookie.payload) }.should raise_error
+      end
+    end
   end
 end
