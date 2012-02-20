@@ -9,6 +9,8 @@ describe LoginCookie do
 
     its(:secret) { should == 'default' }
     its(:ttl)    { should == 1814400 }
+    its(:name)   { should == 'magplus_session' }
+    its(:domain) { should == '.magplus.dev'}
   end
 
   describe ".generate" do
