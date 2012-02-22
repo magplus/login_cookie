@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe LoginCookie do
-  let(:user) { stub id: 1, name: 'wassup', role: 'test' }
+  let(:user) { stub id: 1, name: 'wassup', role: 'test', email: 'test@example.com' }
   let(:cookie) { LoginCookie::Cookie.new(user) }
 
   describe ".config" do

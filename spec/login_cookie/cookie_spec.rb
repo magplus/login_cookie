@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe LoginCookie::Cookie do
-  let(:user) { stub id: 101, name: "Arnold", role: "terminator" }
+  let(:user) { stub id: 101, name: "Arnold", role: "terminator", email: 'hasta-la-vista-baby@skynet.mil' }
   let(:time) { Time.new(2029,01,01).utc }
   let(:cookie) { LoginCookie::Cookie.new user }
 
@@ -18,12 +18,13 @@ describe LoginCookie::Cookie do
     its(:user_id)       { should == 101 }
     its(:role)          { should == "terminator" }
     its(:name)          { should == "Arnold" }
+    its(:email)         { should == 'hasta-la-vista-baby@skynet.mil'}
 
     its(:expires_at)    { should == expires_at }
     its(:session_token) { should == session_token }
 
-    its(:to_json)       { should == {user_id: 101, session_token: session_token, name: "Arnold", role: "terminator", expires_at: expires_at }.to_json }
-    its(:payload)       { should == "eyJ1c2VyX2lkIjoxMDEsInNlc3Npb25fdG9rZW4iOiJmMjQ0NzY5NWQxMjQy\nZmRmYzY4NmE5OGI2NjA1NTU2MzEwM2I5OTU3YTNhMDE3MDkwYWVjOTY2OWI5\nZDVhOGM4IiwibmFtZSI6IkFybm9sZCIsInJvbGUiOiJ0ZXJtaW5hdG9yIiwi\nZXhwaXJlc19hdCI6IjIwMjktMDEtMjEgMjM6MDA6MDAgVVRDIn0=\n.8e59f7e7d2f4b4e367a5b220bdbe5597c1acc4a1cdd9672da2d7f40c90c7b88e" }
+    its(:to_json)       { should == {user_id: 101, session_token: session_token, name: "Arnold", email: 'hasta-la-vista-baby@skynet.mil', role: "terminator", expires_at: expires_at }.to_json }
+    its(:payload)       { should == "eyJ1c2VyX2lkIjoxMDEsInNlc3Npb25fdG9rZW4iOiJmMjQ0NzY5NWQxMjQy\nZmRmYzY4NmE5OGI2NjA1NTU2MzEwM2I5OTU3YTNhMDE3MDkwYWVjOTY2OWI5\nZDVhOGM4IiwibmFtZSI6IkFybm9sZCIsImVtYWlsIjoiaGFzdGEtbGEtdmlz\ndGEtYmFieUBza3luZXQubWlsIiwicm9sZSI6InRlcm1pbmF0b3IiLCJleHBp\ncmVzX2F0IjoiMjAyOS0wMS0yMSAyMzowMDowMCBVVEMifQ==\n.b802d46f1891fb0da38b9978b3572eb8c1e84c5088acee6d00ec641de2e8e6b6" }
   end
 
   describe ".parse" do

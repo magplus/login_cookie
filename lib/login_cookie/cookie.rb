@@ -1,11 +1,12 @@
 module LoginCookie
   class Cookie
-    attr_accessor :user_id, :user, :role, :name, :expires_at, :session_token
+    attr_accessor :user_id, :user, :role, :name, :email, :expires_at, :session_token
 
     def initialize(user)
       self.user = user
       self.user_id = user.id
       self.role = user.role
+      self.email = user.email
       self.name = user.name
     end
 
@@ -15,7 +16,7 @@ module LoginCookie
     end
 
     def to_json
-      { :user_id => user_id, :session_token => session_token, :name => name, :role => role, :expires_at => expires_at }.to_json
+      { user_id: user_id, session_token: session_token, name: name, email: email, role: role, expires_at: expires_at }.to_json
     end
 
     def expires_at
