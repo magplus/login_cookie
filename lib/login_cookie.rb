@@ -9,6 +9,7 @@ module LoginCookie
   autoload :Config, 'login_cookie/config'
   autoload :Cookie, 'login_cookie/cookie'
   autoload :InvalidDigest, 'login_cookie/invalid_digest'
+  autoload :InvalidVersion, 'login_cookie/invalid_version'
   autoload :Rails, 'login_cookie/rails'
 
   class << self

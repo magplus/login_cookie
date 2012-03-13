@@ -23,11 +23,21 @@ describe LoginCookie::Cookie do
     its(:expires_at)    { should == expires_at }
     its(:session_token) { should == session_token }
 
-    its(:to_json)       { should == {user_id: 101, session_token: session_token, name: "Arnold", email: 'hasta-la-vista-baby@skynet.mil', role: "terminator", expires_at: expires_at }.to_json }
-    its(:payload)       { should == "eyJ1c2VyX2lkIjoxMDEsInNlc3Npb25fdG9rZW4iOiJmMjQ0NzY5NWQxMjQy\nZmRmYzY4NmE5OGI2NjA1NTU2MzEwM2I5OTU3YTNhMDE3MDkwYWVjOTY2OWI5\nZDVhOGM4IiwibmFtZSI6IkFybm9sZCIsImVtYWlsIjoiaGFzdGEtbGEtdmlz\ndGEtYmFieUBza3luZXQubWlsIiwicm9sZSI6InRlcm1pbmF0b3IiLCJleHBp\ncmVzX2F0IjoiMjAyOS0wMS0yMSAyMzowMDowMCBVVEMifQ==\n.b802d46f1891fb0da38b9978b3572eb8c1e84c5088acee6d00ec641de2e8e6b6" }
+    its(:to_json)       { should == {user_id: 101, session_token: session_token, name: "Arnold", email: 'hasta-la-vista-baby@skynet.mil', role: "terminator", expires_at: expires_at, version: LoginCookie::VERSION }.to_json }
+
+    # Remember to update the test payload below if you change LoginCookie::VERSION
+    its(:payload)       { should == "eyJ1c2VyX2lkIjoxMDEsInNlc3Npb25fdG9rZW4iOiJmMjQ0NzY5NWQxMjQy\nZmRmYzY4NmE5OGI2NjA1NTU2MzEwM2I5OTU3YTNhMDE3MDkwYWVjOTY2OWI5\nZDVhOGM4IiwibmFtZSI6IkFybm9sZCIsImVtYWlsIjoiaGFzdGEtbGEtdmlz\ndGEtYmFieUBza3luZXQubWlsIiwicm9sZSI6InRlcm1pbmF0b3IiLCJleHBp\ncmVzX2F0IjoiMjAyOS0wMS0yMSAyMzowMDowMCBVVEMiLCJ2ZXJzaW9uIjoi\nMC4wLjQifQ==\n.fa184fe27f6f2c19cf0ec0d0536d1373e20b5a9f601c9cffdba1c490798767eb" }
   end
 
   describe ".parse" do
+    context "given the parsed JSON is of a version not matching the gems version" do
+      before { LoginCookie::Cookie.should_receive(:valid_version?).and_raise LoginCookie::InvalidVersion }
+      
+      it "should raise an error" do
+        lambda { LoginCookie::Cookie.parse(cookie.payload) }.should raise_error      
+      end
+    end
+    
     context "given a valid cookie payload for an existing user" do
       before { User.should_receive(:find).with(user.id).and_return(user) }
       subject {  LoginCookie::Cookie.parse(cookie.payload) }
@@ -41,7 +51,7 @@ describe LoginCookie::Cookie do
       end
     end
 
-    context "given a valid cookie payload for a user that doesnt exist" do
+    context "given a valid cookie payload for a user that doesn't exist" do
       before { User.should_receive(:find).with(user.id).and_return(nil) }
 
       it "should return nil" do

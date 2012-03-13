@@ -16,7 +16,7 @@ module LoginCookie
     end
 
     def to_json
-      { user_id: user_id, session_token: session_token, name: name, email: email, role: role, expires_at: expires_at }.to_json
+      { user_id: user_id, session_token: session_token, name: name, email: email, role: role, expires_at: expires_at, version: LoginCookie::VERSION }.to_json
     end
 
     def expires_at
@@ -32,7 +32,7 @@ module LoginCookie
       new(user)
     end
 
-    private # dont really makes the methods private, but just to separate the helpers from the interface
+    private # doesn't really make the methods private, but just to separate the helpers from the interface
 
     def self.separator
       '.'
@@ -52,6 +52,7 @@ module LoginCookie
 
       json = JSON.parse(Base64.decode64(base64json))
 
+      return nil unless valid_version?(json['version'])
       return nil if expired?(json['expires_at'])
 
       json['user_id']
@@ -60,6 +61,11 @@ module LoginCookie
     def self.valid_digest?(base64json, hexdigest)
       valid = hexdigest(base64json) == hexdigest
       valid or raise LoginCookie::InvalidDigest.new("Cookie digest did not match, have you set the correct secret?")
+    end
+    
+    def self.valid_version?(version)
+      version == LoginCookie::VERSION
+      version or raise LoginCookie::InvalidVersion.new("Cookie was created with another version of LoginCookie.")
     end
 
     def self.expired?(date)
