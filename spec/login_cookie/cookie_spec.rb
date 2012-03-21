@@ -26,7 +26,7 @@ describe LoginCookie::Cookie do
     its(:to_json)       { should == {user_id: 101, session_token: session_token, name: "Arnold", email: 'hasta-la-vista-baby@skynet.mil', role: "terminator", expires_at: expires_at, version: LoginCookie::VERSION }.to_json }
 
     # Remember to update the test payload below if you change LoginCookie::VERSION
-    its(:payload)       { should == "eyJ1c2VyX2lkIjoxMDEsInNlc3Npb25fdG9rZW4iOiJmMjQ0NzY5NWQxMjQy\nZmRmYzY4NmE5OGI2NjA1NTU2MzEwM2I5OTU3YTNhMDE3MDkwYWVjOTY2OWI5\nZDVhOGM4IiwibmFtZSI6IkFybm9sZCIsImVtYWlsIjoiaGFzdGEtbGEtdmlz\ndGEtYmFieUBza3luZXQubWlsIiwicm9sZSI6InRlcm1pbmF0b3IiLCJleHBp\ncmVzX2F0IjoiMjAyOS0wMS0yMSAyMzowMDowMCBVVEMiLCJ2ZXJzaW9uIjoi\nMC4wLjQifQ==\n.fa184fe27f6f2c19cf0ec0d0536d1373e20b5a9f601c9cffdba1c490798767eb" }
+    its(:payload)       { should == "eyJ1c2VyX2lkIjoxMDEsInNlc3Npb25fdG9rZW4iOiJmMjQ0NzY5NWQxMjQy\nZmRmYzY4NmE5OGI2NjA1NTU2MzEwM2I5OTU3YTNhMDE3MDkwYWVjOTY2OWI5\nZDVhOGM4IiwibmFtZSI6IkFybm9sZCIsImVtYWlsIjoiaGFzdGEtbGEtdmlz\ndGEtYmFieUBza3luZXQubWlsIiwicm9sZSI6InRlcm1pbmF0b3IiLCJleHBp\ncmVzX2F0IjoiMjAyOS0wMS0yMSAyMzowMDowMCBVVEMiLCJ2ZXJzaW9uIjoi\nMC4xLjAifQ==\n.5eeac18ef912ecae3753960f5e492eb4fd4a15d39a5aecf8f23498e4c89eda60" }
   end
 
   describe ".parse" do
