@@ -1,13 +1,15 @@
 module LoginCookie
   class Cookie
-    attr_accessor :user_id, :user, :role, :name, :email, :expires_at, :session_token
+    attr_accessor :user_id, :user, :role, :name, :email, :expires_at, :phone, :verified, :session_token
 
     def initialize(user)
       self.user = user
       self.user_id = user.id
-      self.role = user.role
-      self.email = user.email
       self.name = user.name
+      self.email = user.email
+      self.phone = user.phone
+      self.role = user.role
+      self.verified = !user.verified_at.nil?
     end
 
     def payload
@@ -16,7 +18,15 @@ module LoginCookie
     end
 
     def to_json
-      { user_id: user_id, session_token: session_token, name: name, email: email, role: role, expires_at: expires_at, version: LoginCookie::VERSION }.to_json
+      { :user_id => user_id,
+        :session_token => session_token,
+        :name => name,
+        :email => email,
+        :phone => phone,
+        :role => role,
+        :verified => verified,
+        :expires_at => expires_at,
+        :version => LoginCookie::VERSION }.to_json
     end
 
     def expires_at
@@ -62,7 +72,7 @@ module LoginCookie
       valid = hexdigest(base64json) == hexdigest
       valid or raise LoginCookie::InvalidDigest.new("Cookie digest did not match, have you set the correct secret?")
     end
-    
+
     def self.valid_version?(version)
       version == LoginCookie::VERSION
       version or raise LoginCookie::InvalidVersion.new("Cookie was created with another version of LoginCookie.")
