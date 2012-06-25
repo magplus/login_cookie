@@ -1,13 +1,15 @@
 module LoginCookie
   class Cookie
-    attr_accessor :user_id, :user, :role, :name, :email, :expires_at, :session_token
+    attr_accessor :user_id, :user, :role, :name, :email, :expires_at, :phone, :verified, :session_token
 
     def initialize(user)
       self.user = user
       self.user_id = user.id
-      self.role = user.role
-      self.email = user.email
       self.name = user.name
+      self.email = user.email
+      self.phone = user.phone
+      self.role = user.role
+      self.verified = !user.verified_at.nil?
     end
 
     def payload
@@ -20,7 +22,9 @@ module LoginCookie
         :session_token => session_token,
         :name => name,
         :email => email,
+        :phone => phone,
         :role => role,
+        :verified => verified,
         :expires_at => expires_at,
         :version => LoginCookie::VERSION }.to_json
     end

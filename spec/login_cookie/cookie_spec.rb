@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe LoginCookie::Cookie do
-  let(:user) { stub :id => 101, :name => 'Arnold', :role => 'terminator', :email => 'hasta-la-vista-baby@skynet.mil' }
+  let(:user) { stub :id => 101, :name => 'Arnold', :role => 'terminator', :email => 'hasta-la-vista-baby@skynet.mil', :phone => '+46-(0)71-666 666', :verified_at => Time.new(1984, 10, 26).utc }
   let(:time) { Time.new(2029, 01, 01).utc }
   let(:cookie) { LoginCookie::Cookie.new user }
 
@@ -18,7 +18,9 @@ describe LoginCookie::Cookie do
     its(:user_id)       { should == 101 }
     its(:role)          { should == 'terminator' }
     its(:name)          { should == 'Arnold' }
-    its(:email)         { should == 'hasta-la-vista-baby@skynet.mil'}
+    its(:email)         { should == 'hasta-la-vista-baby@skynet.mil' }
+    its(:phone)         { should == '+46-(0)71-666 666' }
+    its(:verified)      { should == true }
 
     its(:expires_at)    { should == expires_at }
     its(:session_token) { should == session_token }
@@ -27,12 +29,14 @@ describe LoginCookie::Cookie do
                                       :session_token => session_token,
                                       :name => 'Arnold',
                                       :email => 'hasta-la-vista-baby@skynet.mil',
+                                      :phone => '+46-(0)71-666 666',
                                       :role => 'terminator',
+                                      :verified => true,
                                       :expires_at => expires_at,
                                       :version => LoginCookie::VERSION }.to_json }
 
     # Remember to update the test payload below if you change LoginCookie::VERSION
-    its(:payload) { should == "eyJ1c2VyX2lkIjoxMDEsInNlc3Npb25fdG9rZW4iOiJmMjQ0NzY5NWQxMjQy\nZmRmYzY4NmE5OGI2NjA1NTU2MzEwM2I5OTU3YTNhMDE3MDkwYWVjOTY2OWI5\nZDVhOGM4IiwibmFtZSI6IkFybm9sZCIsImVtYWlsIjoiaGFzdGEtbGEtdmlz\ndGEtYmFieUBza3luZXQubWlsIiwicm9sZSI6InRlcm1pbmF0b3IiLCJleHBp\ncmVzX2F0IjoiMjAyOS0wMS0yMSAyMzowMDowMCBVVEMiLCJ2ZXJzaW9uIjoi\nMC4xLjAifQ==\n.5eeac18ef912ecae3753960f5e492eb4fd4a15d39a5aecf8f23498e4c89eda60" }
+    its(:payload) { should == "eyJ1c2VyX2lkIjoxMDEsInNlc3Npb25fdG9rZW4iOiJmMjQ0NzY5NWQxMjQy\nZmRmYzY4NmE5OGI2NjA1NTU2MzEwM2I5OTU3YTNhMDE3MDkwYWVjOTY2OWI5\nZDVhOGM4IiwibmFtZSI6IkFybm9sZCIsImVtYWlsIjoiaGFzdGEtbGEtdmlz\ndGEtYmFieUBza3luZXQubWlsIiwicGhvbmUiOiIrNDYtKDApNzEtNjY2IDY2\nNiIsInJvbGUiOiJ0ZXJtaW5hdG9yIiwidmVyaWZpZWQiOnRydWUsImV4cGly\nZXNfYXQiOiIyMDI5LTAxLTIxIDIzOjAwOjAwIFVUQyIsInZlcnNpb24iOiIw\nLjIuMCJ9\n.27a1eb97f939a572fab50bb0d726f5f290404d81a121b1fe951992d12a0d24b1" }
   end
 
   describe '.parse' do
