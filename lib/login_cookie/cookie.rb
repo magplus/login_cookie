@@ -58,24 +58,25 @@ module LoginCookie
     end
 
     def self.user_id_from_cookie(base64json, hexdigest)
-      return nil unless valid_digest?(base64json, hexdigest)
+      unless valid_digest?(base64json, hexdigest)
+        raise LoginCookie::InvalidDigest.new("Cookie digest did not match, have you set the correct secret?")
+      end
 
       json = JSON.parse(Base64.decode64(base64json))
 
-      return nil unless valid_version?(json['version'])
-      return nil if expired?(json['expires_at'])
+      unless valid_version?(json['version'])
+        raise LoginCookie::InvalidVersion.new("Cookie was created with another version of LoginCookie.")
+      end
 
-      json['user_id']
+      (expired? json['expires_at']) ? nil : json['user_id']
     end
 
     def self.valid_digest?(base64json, hexdigest)
-      valid = hexdigest(base64json) == hexdigest
-      valid or raise LoginCookie::InvalidDigest.new("Cookie digest did not match, have you set the correct secret?")
+      hexdigest(base64json) == hexdigest
     end
 
     def self.valid_version?(version)
       version == LoginCookie::VERSION
-      version or raise LoginCookie::InvalidVersion.new("Cookie was created with another version of LoginCookie.")
     end
 
     def self.expired?(date)

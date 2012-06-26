@@ -36,14 +36,14 @@ describe LoginCookie::Cookie do
                                       :version => LoginCookie::VERSION }.to_json }
 
     # Remember to update the test payload below if you change LoginCookie::VERSION
-    its(:payload) { should == "eyJ1c2VyX2lkIjoxMDEsInNlc3Npb25fdG9rZW4iOiJmMjQ0NzY5NWQxMjQy\nZmRmYzY4NmE5OGI2NjA1NTU2MzEwM2I5OTU3YTNhMDE3MDkwYWVjOTY2OWI5\nZDVhOGM4IiwibmFtZSI6IkFybm9sZCIsImVtYWlsIjoiaGFzdGEtbGEtdmlz\ndGEtYmFieUBza3luZXQubWlsIiwicGhvbmUiOiIrNDYtKDApNzEtNjY2IDY2\nNiIsInJvbGUiOiJ0ZXJtaW5hdG9yIiwidmVyaWZpZWQiOnRydWUsImV4cGly\nZXNfYXQiOiIyMDI5LTAxLTIxIDIzOjAwOjAwIFVUQyIsInZlcnNpb24iOiIw\nLjIuMCJ9\n.27a1eb97f939a572fab50bb0d726f5f290404d81a121b1fe951992d12a0d24b1" }
+    its(:payload) { should == "eyJ1c2VyX2lkIjoxMDEsInNlc3Npb25fdG9rZW4iOiJmMjQ0NzY5NWQxMjQy\nZmRmYzY4NmE5OGI2NjA1NTU2MzEwM2I5OTU3YTNhMDE3MDkwYWVjOTY2OWI5\nZDVhOGM4IiwibmFtZSI6IkFybm9sZCIsImVtYWlsIjoiaGFzdGEtbGEtdmlz\ndGEtYmFieUBza3luZXQubWlsIiwicGhvbmUiOiIrNDYtKDApNzEtNjY2IDY2\nNiIsInJvbGUiOiJ0ZXJtaW5hdG9yIiwidmVyaWZpZWQiOnRydWUsImV4cGly\nZXNfYXQiOiIyMDI5LTAxLTIxIDIzOjAwOjAwIFVUQyIsInZlcnNpb24iOiIw\nLjIuMSJ9\n.8ddea0a56e326d4c5aef1b0bbe4c3c52e8cc3d2dfb9b52f6776514a247d2ceff" }
   end
 
   describe '.parse' do
     context 'given the parsed JSON is of a version not matching the gems version' do
       it 'raises an error' do
-        LoginCookie::Cookie.should_receive(:valid_version?).and_raise LoginCookie::InvalidVersion
-        expect { LoginCookie::Cookie.parse(cookie.payload) }.to raise_error
+        LoginCookie::Cookie.should_receive(:valid_version?).and_return false
+        expect { LoginCookie::Cookie.parse(cookie.payload) }.to raise_error LoginCookie::InvalidVersion
       end
     end
 
@@ -69,8 +69,8 @@ describe LoginCookie::Cookie do
 
     context 'given a cookie with an invalid digest' do
       it 'raises an error' do
-        LoginCookie::Cookie.should_receive(:valid_digest?).and_raise LoginCookie::InvalidDigest
-        expect { LoginCookie::Cookie.parse(cookie.payload) }.to raise_error
+        LoginCookie::Cookie.should_receive(:valid_digest?).and_return false
+        expect { LoginCookie::Cookie.parse(cookie.payload) }.to raise_error LoginCookie::InvalidDigest
       end
     end
   end
