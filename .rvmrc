@@ -1,1 +1,1 @@
-rvm use --create ruby-1.9.2@login_cookie
+rvm use --create ruby-1.9.3@login_cookie
