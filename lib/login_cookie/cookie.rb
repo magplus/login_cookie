@@ -9,7 +9,7 @@ module LoginCookie
       self.email = user.email
       self.phone = user.phone
       self.role = user.role
-      self.verified = !user.verified_at.nil?
+      self.verified = true
     end
 
     def payload

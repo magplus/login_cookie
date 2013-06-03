@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe LoginCookie::Cookie do
-  let(:user) { stub :id => 101, :name => 'Arnold', :role => 'terminator', :email => 'hasta-la-vista-baby@skynet.mil', :phone => '+46-(0)71-666 666', :verified_at => Time.new(1984, 10, 26).utc }
+  let(:user) { stub :id => 101, :name => 'Arnold', :role => 'terminator', :email => 'hasta-la-vista-baby@skynet.mil', :phone => '+46-(0)71-666 666' }
   let(:time) { Time.new(2029, 01, 01).utc }
   let(:cookie) { LoginCookie::Cookie.new user }
 
