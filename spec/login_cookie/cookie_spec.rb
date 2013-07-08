@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe LoginCookie::Cookie do
-  let(:user) { stub :id => 101, :name => 'Arnold', :role => 'terminator', :email => 'hasta-la-vista-baby@skynet.mil', :phone => '+46-(0)71-666 666' }
+  let(:user) { stub :id => 101, :first_name => 'Arnold', :name => 'Schwarzenegger', :role => 'terminator', :email => 'hasta-la-vista-baby@skynet.mil', :phone => '+46-(0)71-666 666' }
   let(:time) { Time.new(2029, 01, 01).utc }
   let(:cookie) { LoginCookie::Cookie.new user }
 
@@ -17,7 +17,7 @@ describe LoginCookie::Cookie do
     its(:user)          { should == user }
     its(:user_id)       { should == 101 }
     its(:role)          { should == 'terminator' }
-    its(:name)          { should == 'Arnold' }
+    its(:name)          { should == 'Arnold Schwarzenegger' }
     its(:email)         { should == 'hasta-la-vista-baby@skynet.mil' }
     its(:phone)         { should == '+46-(0)71-666 666' }
     its(:verified)      { should == true }
@@ -27,7 +27,7 @@ describe LoginCookie::Cookie do
 
     its(:to_json)       { should == { :user_id => 101,
                                       :session_token => session_token,
-                                      :name => 'Arnold',
+                                      :name => 'Arnold Schwarzenegger',
                                       :email => 'hasta-la-vista-baby@skynet.mil',
                                       :phone => '+46-(0)71-666 666',
                                       :role => 'terminator',
@@ -36,7 +36,21 @@ describe LoginCookie::Cookie do
                                       :version => LoginCookie::VERSION }.to_json }
 
     # Remember to update the test payload below if you change LoginCookie::VERSION
-    its(:payload) { should == "eyJ1c2VyX2lkIjoxMDEsInNlc3Npb25fdG9rZW4iOiJmMjQ0NzY5NWQxMjQy\nZmRmYzY4NmE5OGI2NjA1NTU2MzEwM2I5OTU3YTNhMDE3MDkwYWVjOTY2OWI5\nZDVhOGM4IiwibmFtZSI6IkFybm9sZCIsImVtYWlsIjoiaGFzdGEtbGEtdmlz\ndGEtYmFieUBza3luZXQubWlsIiwicGhvbmUiOiIrNDYtKDApNzEtNjY2IDY2\nNiIsInJvbGUiOiJ0ZXJtaW5hdG9yIiwidmVyaWZpZWQiOnRydWUsImV4cGly\nZXNfYXQiOiIyMDI5LTAxLTIxIDIzOjAwOjAwIFVUQyIsInZlcnNpb24iOiIw\nLjIuMSJ9\n.8ddea0a56e326d4c5aef1b0bbe4c3c52e8cc3d2dfb9b52f6776514a247d2ceff" }
+    its(:payload) { should == "eyJ1c2VyX2lkIjoxMDEsInNlc3Npb25fdG9rZW4iOiJmMjQ0NzY5NWQxMjQy\nZmRmYzY4NmE5OGI2NjA1NTU2MzEwM2I5OTU3YTNhMDE3MDkwYWVjOTY2OWI5\nZDVhOGM4IiwibmFtZSI6IkFybm9sZCBTY2h3YXJ6ZW5lZ2dlciIsImVtYWls\nIjoiaGFzdGEtbGEtdmlzdGEtYmFieUBza3luZXQubWlsIiwicGhvbmUiOiIr\nNDYtKDApNzEtNjY2IDY2NiIsInJvbGUiOiJ0ZXJtaW5hdG9yIiwidmVyaWZp\nZWQiOnRydWUsImV4cGlyZXNfYXQiOiIyMDI5LTAxLTIxIDIzOjAwOjAwIFVU\nQyIsInZlcnNpb24iOiIwLjIuMiJ9\n.333861e89990fce90a0c4d1ef67d1ff5d5a550a6f31eb8736e8e7625b192c8dc" }
+  end
+
+  describe '.name' do
+    it 'is only the name if first_name is blank' do
+      user = stub :id => 101, :first_name => "", :name => 'Schwarzenegger', :role => 'terminator', :email => 'hasta-la-vista-baby@skynet.mil', :phone => '+46-(0)71-666 666'
+      cookie = LoginCookie::Cookie.new user
+      cookie.name.should == 'Schwarzenegger'
+    end
+  
+    it 'is only the name if first_name is nil' do
+      user = stub :id => 101, :first_name => nil, :name => 'Schwarzenegger', :role => 'terminator', :email => 'hasta-la-vista-baby@skynet.mil', :phone => '+46-(0)71-666 666'
+      cookie = LoginCookie::Cookie.new user
+      cookie.name.should == 'Schwarzenegger'
+    end
   end
 
   describe '.parse' do
