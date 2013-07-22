@@ -5,7 +5,7 @@ module LoginCookie
     def initialize(user)
       self.user = user
       self.user_id = user.id
-      self.name = user.name
+      self.name = complete_name_for(user)
       self.email = user.email
       self.phone = user.phone
       self.role = user.role
@@ -82,6 +82,9 @@ module LoginCookie
     def self.expired?(date)
       Time.parse(date) < Time.now.utc
     end
-
+    
+    def complete_name_for(user)
+      [user.first_name, user.name].join(' ').strip
+    end
   end
 end
