@@ -5,7 +5,7 @@ require 'login_cookie/version'
 Gem::Specification.new do |s|
   s.name        = 'login_cookie'
   s.version     = LoginCookie::VERSION
-  s.authors     = ['Dennis Rogenius, Lennart Fridén']
+  s.authors     = ['Dennis Rogenius, Lennart Fridén', 'Mikael Amborn', 'Karl Eklund', 'Victoria Wagman']
   s.email       = ['backend@magplus.com']
   s.homepage    = 'http://www.magplus.com'
   s.summary     = 'Mag+ Login Cookie'
@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   # s.add_runtime_dependency 'rest-client'
 
   s.add_development_dependency 'rake'
-  s.add_development_dependency 'rspec', '~> 2.11'
+  s.add_development_dependency 'rspec', '~> 2.13'
   s.add_development_dependency 'timecop'
   s.add_development_dependency 'debugger'
 end
