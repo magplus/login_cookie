@@ -1,7 +1,5 @@
 module LoginCookie
   class CookieParser
-    include CookieHelper
-
     attr_reader :payload, :encoded, :digest
 
     def self.parse payload
@@ -10,11 +8,11 @@ module LoginCookie
 
     def initialize(payload)
       @payload = payload
-      @encoded, @digest = payload.split(separator)
+      @encoded, @digest = payload.split(CookieHelper.separator)
     end
 
     def parse
-      json = MultiJson.load decode(encoded)
+      json = MultiJson.load CookieHelper.decode(encoded)
 
       case
       when invalid_digest?
@@ -31,7 +29,7 @@ module LoginCookie
     private
 
     def invalid_digest?
-      hexdigest(encoded) != digest
+      CookieHelper.hexdigest(encoded) != digest
     end
 
     def invalid_version? ver

@@ -1,7 +1,5 @@
 module LoginCookie
   class CookieGenerator
-    include CookieHelper
-
     attr_reader :json
 
     def self.generate content
@@ -13,7 +11,7 @@ module LoginCookie
     end
 
     def generate
-      [encode(json), hexdigest(encode(json))].join separator
+      [CookieHelper.encode(json), CookieHelper.hexdigest(CookieHelper.encode(json))].join CookieHelper.separator
     end
 
     private
@@ -23,6 +21,10 @@ module LoginCookie
         version: LoginCookie::VERSION,
         expires_at: expires_at
       }
+    end
+
+    def expires_at
+      Time.now.utc + LoginCookie.config.ttl
     end
   end
 end
