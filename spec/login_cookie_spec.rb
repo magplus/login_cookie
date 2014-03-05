@@ -1,28 +1,28 @@
 require 'spec_helper'
 
 describe LoginCookie do
-  let(:user) { double :id => 101, :first_name => 'Arnold', :name => 'Schwarzenegger', :role => 'terminator', :email => 'hasta-la-vista-baby@skynet.mil', :phone => '+46-(0)71-666 666', :verified_at => Time.new(1984, 10, 26).utc }
-  let(:cookie) { LoginCookie::Cookie.new(user) }
-
   describe '.config' do
     subject { LoginCookie.config }
 
     its(:secret) { should == 'default' }
     its(:ttl)    { should == 1814400 }
     its(:name)   { should == 'magplus_session' }
-    its(:domain) { should == '.magplus.dev'}
+    its(:domain) { should == '.magplus.dev' }
   end
 
   describe '.generate' do
-    it 'returns the payload of a cookie given a user' do
-      LoginCookie.generate(user).should == cookie.payload
+    it 'generates a new payload from the given hash' do
+      contents = { 'test' => true }
+      expected_payload = LoginCookie::CookieGenerator.generate(contents)
+      expect(LoginCookie.generate(contents)).to eq expected_payload
     end
   end
 
-  describe '.authenticate' do
-    it 'returns a user from a cookie with the given payload' do
-      User.should_receive(:find).with(cookie.user_id).and_return user
-      LoginCookie.authenticate(cookie.payload).should == cookie.user
+  describe '.parse' do
+    it 'parses the given payload to a hash' do
+      payload = "eyJ0ZXN0Ijp0cnVlLCJ2ZXJzaW9uIjoiMC4zLjAiLCJleHBpcmVzX2F0Ijoi\nMjAxNC0wMy0xNyAxMToxMDozMiBVVEMifQ==\n.937fdeab404cf2ce240551c927b4569fafb495cdfdbdf370e2ca5d1c5cea0d19"
+      expected_content = LoginCookie::CookieParser.parse(payload)
+      expect(LoginCookie.parse(payload)).to eq expected_content
     end
   end
 end
