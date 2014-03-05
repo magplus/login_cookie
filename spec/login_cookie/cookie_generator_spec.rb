@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe LoginCookie::CookieGenerator do
-  let(:time) { Time.parse('2001-01-01 UTC').utc }
+  let(:time) { Time.parse('2001-01-01 00:00:00 UTC').utc }
 
   before { Timecop.freeze(time) }
   after { Timecop.return }
@@ -11,7 +11,7 @@ describe LoginCookie::CookieGenerator do
     subject(:generated) { LoginCookie::CookieGenerator.generate(contents) }
 
     it 'returns a payload for the given content' do
-      expected_payload = "eyJlbWFpbCI6InRlc3QiLCJ2ZXJzaW9uIjoiMC4zLjAiLCJleHBpcmVzX2F0\nIjoiMjAwMS0wMS0yMSAyMzowMDowMCBVVEMifQ==\n.feb4e88ac61f1faaf4ef078350e340339e9316d591bf043e600b597f890990b0"
+      expected_payload = "eyJlbWFpbCI6InRlc3QiLCJ2ZXJzaW9uIjoiMC4zLjAiLCJleHBpcmVzX2F0\nIjoiMjAwMS0wMS0yMiAwMDowMDowMCBVVEMifQ==\n.3cf283f1c92ffe0ae8ebe2eef686d83a90a46c853a33bd52354d01d19ef79c8c"
       expect(generated).to eq expected_payload
     end
 
@@ -22,7 +22,7 @@ describe LoginCookie::CookieGenerator do
 
     it 'appends the expires at timestamp to the content' do
       parsed = LoginCookie::CookieParser.parse(generated)
-      expect(parsed).to include 'expires_at' => '2001-01-21 23:00:00 UTC'
+      expect(parsed).to include 'expires_at' => '2001-01-22 00:00:00 UTC'
     end
   end
 end
