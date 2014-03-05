@@ -23,3 +23,8 @@
                    \__\/                   \__\/        \__\/    
 
 </pre>
+
+```ruby
+LoginCookie.generate(hash) #=> payload
+LoginCookie.parse(payload) #=> hash
+```
