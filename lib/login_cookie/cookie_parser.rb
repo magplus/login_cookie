@@ -2,7 +2,7 @@ module LoginCookie
   class CookieParser
     attr_reader :payload, :encoded, :digest
 
-    def self.parse payload
+    def self.parse(payload)
       new(payload).parse
     end
 
@@ -32,8 +32,8 @@ module LoginCookie
       CookieHelper.hexdigest(encoded) != digest
     end
 
-    def invalid_version? ver
-      LoginCookie::VERSION != ver
+    def invalid_version?(version)
+      LoginCookie::VERSION != version
     end
 
     def expired?(time)

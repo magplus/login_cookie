@@ -5,7 +5,7 @@ require 'login_cookie/version'
 Gem::Specification.new do |s|
   s.name        = 'login_cookie'
   s.version     = LoginCookie::VERSION
-  s.authors     = ['Dennis Rogenius, Lennart Fridén', 'Mikael Amborn', 'Karl Eklund', 'Victoria Wagman']
+  s.authors     = ['Dennis Rogenius', 'Lennart Fridén', 'Mikael Amborn', 'Karl Eklund', 'Victoria Wagman']
   s.email       = ['backend@magplus.com']
   s.homepage    = 'http://www.magplus.com'
   s.summary     = 'Mag+ Login Cookie'
@@ -18,14 +18,10 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ['lib']
 
-  # specify any dependencies here; for example:
-  # s.add_development_dependency 'rspec'
-  # s.add_runtime_dependency 'rest-client'
-
   s.add_runtime_dependency 'multi_json'
 
+  s.add_development_dependency 'byebug'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'timecop'
-  s.add_development_dependency 'byebug'
 end

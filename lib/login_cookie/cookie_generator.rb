@@ -2,11 +2,11 @@ module LoginCookie
   class CookieGenerator
     attr_reader :json
 
-    def self.generate content
+    def self.generate(content)
       new(content).generate
     end
 
-    def initialize content
+    def initialize(content)
       @json = MultiJson.dump content.merge(cookie_parameters)
     end
 

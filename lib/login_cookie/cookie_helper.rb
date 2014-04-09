@@ -1,21 +1,19 @@
 module LoginCookie
   class CookieHelper
-    class << self
-      def hexdigest encoded
-        Digest::SHA2.hexdigest(encoded + LoginCookie.config.secret)
-      end
+    def self.hexdigest(encoded)
+      Digest::SHA2.hexdigest(encoded + LoginCookie.config.secret)
+    end
 
-      def encode uncoded
-        Base64.encode64 uncoded
-      end
+    def self.encode(uncoded)
+      Base64.encode64 uncoded
+    end
 
-      def decode encoded
-        Base64.decode64 encoded
-      end
+    def self.decode(encoded)
+      Base64.decode64 encoded
+    end
 
-      def separator
-        '.'
-      end
+    def self.separator
+      '.'
     end
   end
 end
