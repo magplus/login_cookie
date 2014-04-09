@@ -20,7 +20,7 @@ describe LoginCookie do
 
   describe '.parse' do
     it 'parses the given payload to a hash' do
-      payload = "eyJ0ZXN0Ijp0cnVlLCJ2ZXJzaW9uIjoiMC4zLjAiLCJleHBpcmVzX2F0Ijoi\nMjAxNC0wMy0xNyAxMToxMDozMiBVVEMifQ==\n.937fdeab404cf2ce240551c927b4569fafb495cdfdbdf370e2ca5d1c5cea0d19"
+      payload = "eyJ0ZXN0Ijp0cnVlLCJ2ZXJzaW9uIjoiMC40LjAiLCJleHBpcmVzX2F0Ijoi\nMjAxNC0wNC0zMCAwOToyMzoxOSBVVEMifQ==\n.f312b79134be83150ff94606ef7a219e3c6b460e990271b119ef7ee9c4399397"
       Timecop.freeze(Time.parse '2014-03-01') do
         expected_content = LoginCookie::CookieParser.parse(payload)
         expect(LoginCookie.parse(payload)).to eq expected_content
