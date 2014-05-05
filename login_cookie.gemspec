@@ -1,5 +1,4 @@
-# -*- encoding: utf-8 -*-
-$:.push File.expand_path('../lib', __FILE__)
+$LOAD_PATH.push File.expand_path('../lib', __FILE__)
 require 'login_cookie/version'
 
 Gem::Specification.new do |s|
@@ -21,6 +20,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'multi_json'
 
   s.add_development_dependency 'byebug'
+  s.add_development_dependency 'codeclimate-test-reporter'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'timecop'
