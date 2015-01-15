@@ -6,3 +6,4 @@ end
 require 'login_cookie'
 require 'time'
 require 'timecop'
+require 'rspec/its'
